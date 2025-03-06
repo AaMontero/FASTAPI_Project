@@ -1,16 +1,19 @@
 import hashlib
-
 import datetime
 from peewee import *
-from local_settings import USER_DATABASE 
-from local_settings import PASSWORD_DATABASE
+import json
+
+with open('local_settings.json', 'r') as f:
+    config = json.load(f)
+
+USER_DATABASE = config['USER_DATABASE']
+PASSWORD_DATABASE = config['PASSWORD_DATABASE']
 
 database = MySQLDatabase('fastapi_project', 
         user=USER_DATABASE,
         password=PASSWORD_DATABASE,
         host='localhost',
         port=3306)
-
 
 class User(Model):
     username = CharField(max_length=50, unique=True)
